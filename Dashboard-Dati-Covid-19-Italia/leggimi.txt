@@ -1,0 +1,28 @@
+###Studente proponente:
+s236929 Roberto Torta
+
+###Titolo della proposta: 
+Dashboard Dati Covid-19 Italia
+
+###Descrizione del problema proposto: 
+Il programma si propone di fornire una interfaccia grafica per la visualiziazione semplificata dei dati 
+nazionali e regionali sul contagio da Covid-19 in Italia, inoltre si intende creare un simulazione verosimile del contagio al 
+variare delle condizioni poste  dall'user. 
+
+###Descrizione della rilevanza gestionale del problema: 
+Riuscire ad avere accesso ai dati aggiornati del contagio, in modo pratico ed intuitivo.
+
+###Descrizione dei data-set per la valutazione: 
+I dati verrano presi dal repository del dipartimento della protezione civile italiana (https://github.com/pcm-dpc/COVID-19),
+verrano scaricati in formato csv tramite wget, letti su Java ed usati per popolare un Database su HeidiSQL per poi poter effetturare
+le interrogazioni sql desiderate.
+
+###Descrizione preliminare degli algoritmi coinvolti: 
+I principali problemi da affrontare saranno la lettura dati csv, il popolamento dei database, la creazione 
+dell'interfaccia grafica, la simulazione del contagio al variare dei parametri scelti dall'user (possibilmente con la ricorsione)
+
+###Descrizione preliminare delle funzionalità previste per l'applicazione software: 
+L'interfaccia sarà dotata di menù a tendine per leggere i dati a livello nazionale e regionale, nei giorni
+scelti dall'user, sono previsti metodi per calcolare il tasso di contagiosità R0, il tasso di mortalità e le percentuali di contagiati.
+La parte di simulazione permetterà di scegliere in quali giorni applicare le varie misure di contenimento (chiusura scuole,negozi, 
+lockdown totale,ecc) per vedere come si sarebbe potuto evolvere il contagio in tali condizioni. 
