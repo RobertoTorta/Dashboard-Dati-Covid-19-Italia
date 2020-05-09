@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import polito.it.Dashboard_Dati_Covid_19_Italia.db.DatiCovidItaliaDAO;
+
 public class Reader {
 
 	public static void leggiIlFile( String nomeFile) {
@@ -14,7 +16,7 @@ public class Reader {
 			inputStream.next();
 			while(inputStream.hasNext()) {
 				String data = inputStream.next();
-				System.out.println(data);
+				System.out.println(data+";");
 			}
 			
 			
@@ -27,11 +29,8 @@ public class Reader {
 	
 	public static void main(String[] args) {
 
-		leggiIlFile("dpc-covid19-ita-andamento-nazionale.csv");
+		leggiIlFile("dpc-covid19-ita-regioni.csv");
 		
-		
-		
-
 	}
 
 }
