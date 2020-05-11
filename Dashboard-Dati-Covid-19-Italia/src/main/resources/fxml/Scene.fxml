@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextArea?>
@@ -27,6 +28,11 @@
                   <Button fx:id="bottonePreparaDati" mnemonicParsing="false" onAction="#preparaDati" text="Prepara i dati">
                      <HBox.margin>
                         <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="bottoneVisualizzaGrafico" mnemonicParsing="false" onAction="#disegnaGrafico" prefHeight="25.0" prefWidth="128.0" text="Visualizza grafico">
+                     <HBox.margin>
+                        <Insets left="5.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -101,11 +107,7 @@
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <TextArea fx:id="graficoResult">
-                           <VBox.margin>
-                              <Insets left="5.0" top="5.0" />
-                           </VBox.margin>
-                        </TextArea>
+                        <PieChart fx:id="graficoResult" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">

@@ -15,6 +15,7 @@ import java.util.TreeMap;
 
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatiPerPercentuali;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatoNazionale;
+import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatoPerGrafico;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatoRegionale;
 
 
@@ -91,7 +92,7 @@ public class DatiCovidItaliaDAO {
 	 * datiregionali nel database DatiCovidItalia, per la regione passata come parametro in formato stringa
 	 * @return una lista (Linked) dei dati di ogni giorno della regione passata come parametro
 	 */
-	public LinkedList<DatoRegionale> estraiDatiRegionaPerRegione(String regioneDaCercare) {
+	public LinkedList<DatoRegionale> estraiDatiRegionePerRegione(String regioneDaCercare) {
 		String sql = "SELECT data , denominazione_regione, terapia_intensiva, nuovi_positivi, dimessi_guariti, deceduti, totale_casi FROM datiregionali WHERE denominazione_regione=?" ;
 		LinkedList<DatoRegionale> datiRegionali = new LinkedList<>();
 		
@@ -148,6 +149,37 @@ public class DatiCovidItaliaDAO {
 			throw new RuntimeException("Errore di connessione al Database.");
 		}
 		return datiPerPercentuali;
+	}
+	
+	public DatoPerGrafico estraiDatiPerGrafico(String regione){
+		String sql;
+		if(regione.equals("Italia")) 
+			sql = "SELECT totale_casi, deceduti , dimessi_guariti FROM datiNazionali WHERE data=(SELECT MAX(data) FROM datiNazionali)" ;
+		else
+			sql="SELECT totale_casi, deceduti , dimessi_guariti FROM datiRegionali WHERE denominazione_regione=? AND data=(SELECT MAX(data) FROM datiRegionali)";
+		
+		DatoPerGrafico dpg;
+		
+		try {
+			Connection conn = DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			if(!regione.equals("Italia")) {
+				st.setString(1, regione);
+				System.out.println(sql);
+			}
+			System.out.println(sql);
+			ResultSet rs = st.executeQuery();
+			rs.next();
+			dpg= new DatoPerGrafico(rs.getInt("totale_casi"), rs.getInt("deceduti"), rs.getInt("dimessi_guariti"));
+			
+			st.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Errore di connessione al Database.");
+		}
+		return dpg;
 	}
 
 }

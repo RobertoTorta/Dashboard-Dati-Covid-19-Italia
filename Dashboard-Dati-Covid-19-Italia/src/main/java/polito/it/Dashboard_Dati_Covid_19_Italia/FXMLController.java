@@ -5,14 +5,19 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import polito.it.Dashboard_Dati_Covid_19_Italia.db.DatiCovidItaliaDAO;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatiPerPercentuali;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatoNazionale;
+import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatoPerGrafico;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatoRegionale;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.Model;
 
@@ -25,8 +30,6 @@ public class FXMLController {
 	LinkedList<DatoRegionale> datiRegionaliPerRegione;
 	TreeMap<String, DatiPerPercentuali> datiPerPercentuali;
 
-
-
 	 @FXML // ResourceBundle that was given to the FXMLLoader
 	    private ResourceBundle resources;
 
@@ -35,6 +38,9 @@ public class FXMLController {
 
 	    @FXML // fx:id="bottonePreparaDati"
 	    private Button bottonePreparaDati; // Value injected by FXMLLoader
+
+	    @FXML // fx:id="bottoneVisualizzaGrafico"
+	    private Button bottoneVisualizzaGrafico; // Value injected by FXMLLoader
 
 	    @FXML // fx:id="comboBoxData"
 	    private ComboBox<LocalDate> comboBoxData; // Value injected by FXMLLoader
@@ -58,7 +64,7 @@ public class FXMLController {
 	    private TextArea txtResult; // Value injected by FXMLLoader
 
 	    @FXML // fx:id="graficoResult"
-	    private TextArea graficoResult; // Value injected by FXMLLoader
+	    private PieChart graficoResult; // Value injected by FXMLLoader
 
 	    @FXML // fx:id="bottoneSimulazione"
 	    private Button bottoneSimulazione; // Value injected by FXMLLoader
@@ -154,21 +160,41 @@ public class FXMLController {
 		
 
 	}
+	
+    @FXML
+    void disegnaGrafico(ActionEvent event) {
+   
+		String regioneDesiderata = comboBoxRegione.getValue();
+		if (regioneDesiderata == null) {
+			txtResult.appendText("Selezionare una regione!!");
+			return;
 
-	@FXML // This method is called by the FXMLLoader when initialization is complete
-	void initialize() {
-		assert bottonePreparaDati != null : "fx:id=\"bottonePreparaDati\" was not injected: check your FXML file 'Scene.fxml'.";
-		assert comboBoxData != null : "fx:id=\"comboBoxData\" was not injected: check your FXML file 'Scene.fxml'.";
-		assert comboBoxRegione != null : "fx:id=\"comboBoxRegione\" was not injected: check your FXML file 'Scene.fxml'.";
-		assert bottoneTerapie != null : "fx:id=\"bottoneTerapie\" was not injected: check your FXML file 'Scene.fxml'.";
-		assert bottonePercentuale != null : "fx:id=\"bottonePercentuale\" was not injected: check your FXML file 'Scene.fxml'.";
-		assert bottoneR0 != null : "fx:id=\"bottoneR0\" was not injected: check your FXML file 'Scene.fxml'.";
-		assert bottoneMortalita != null : "fx:id=\"bottoneMortalita\" was not injected: check your FXML file 'Scene.fxml'.";
-		assert graficoResult != null : "fx:id=\"graficoResult\" was not injected: check your FXML file 'Scene.fxml'.";
-		assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
-		assert bottoneSimulazione != null : "fx:id=\"bottoneSimulazione\" was not injected: check your FXML file 'Scene.fxml'.";
+		}
+		
+		DatoPerGrafico dpg= model.estraiDatiPerGrafico(regioneDesiderata);
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+				new PieChart.Data("Totale Casi", dpg.getTotaleCasi()),
+				new PieChart.Data("Deceduti", dpg.getTotaleDecessi()),
+				new PieChart.Data("Guariti", dpg.getGuariti()));
+		graficoResult.setData(pieChartData);
 
-	}
+    }
+
+    @FXML // This method is called by the FXMLLoader when initialization is complete
+    void initialize() {
+        assert bottonePreparaDati != null : "fx:id=\"bottonePreparaDati\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert bottoneVisualizzaGrafico != null : "fx:id=\"bottoneVisualizzaGrafico\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert comboBoxData != null : "fx:id=\"comboBoxData\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert comboBoxRegione != null : "fx:id=\"comboBoxRegione\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert bottoneTerapie != null : "fx:id=\"bottoneTerapie\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert bottonePercentuale != null : "fx:id=\"bottonePercentuale\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert bottoneR0 != null : "fx:id=\"bottoneR0\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert bottoneMortalita != null : "fx:id=\"bottoneMortalita\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert graficoResult != null : "fx:id=\"graficoResult\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert bottoneSimulazione != null : "fx:id=\"bottoneSimulazione\" was not injected: check your FXML file 'Scene.fxml'.";
+
+    }
 
 	public void setModel(Model model) {
 		this.model = model;

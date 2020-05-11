@@ -1,6 +1,7 @@
 package polito.it.Dashboard_Dati_Covid_19_Italia.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -38,7 +39,7 @@ public class Model {
 		}
 
 		String regioneEsempio = "Abruzzo";
-		datiRegionaliPerRegione = dao.estraiDatiRegionaPerRegione(regioneEsempio);
+		datiRegionaliPerRegione = dao.estraiDatiRegionePerRegione(regioneEsempio);
 		System.out.println("\nDATI DELLA REGIONE " + regioneEsempio);
 		for (DatoRegionale dr : datiRegionaliPerRegione) {
 			System.out.println(dr.toString());
@@ -188,6 +189,12 @@ public class Model {
 		tasso = ((float) temp.getNuoviPositivi() / (float) tempGiornoPrima.getNuoviPositivi());
 
 		return tasso;
+	}
+	
+	public DatoPerGrafico estraiDatiPerGrafico(String regione){
+		DatiCovidItaliaDAO dao = new DatiCovidItaliaDAO();
+		
+		return dao.estraiDatiPerGrafico(regione);
 	}
 
 	public static void main(String[] args) {
