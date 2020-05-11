@@ -10,28 +10,37 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polito.it.Dashboard_Dati_Covid_19_Italia.FXMLController">
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli la data e la regione ed avvia l'analisi">
-               <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
+            <HBox>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Prepara i dati, scegli la data e la regione ed avvia l'analisi">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Button fx:id="bottonePreparaDati" mnemonicParsing="false" onAction="#preparaDati" text="Prepara i dati">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <HBox>
                <children>
                   <VBox>
                      <children>
-                        <ComboBox fx:id="comboBoxData" prefHeight="25.0" prefWidth="130.0" promptText="Scegli la data">
+                        <ComboBox fx:id="comboBoxData" prefHeight="25.0" prefWidth="171.0" promptText="Scegli la data">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                         </ComboBox>
-                        <ComboBox fx:id="comboBoxRegione" promptText="Scegli la regione">
+                        <ComboBox fx:id="comboBoxRegione" prefHeight="25.0" prefWidth="156.0" promptText="Scegli la regione">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
@@ -40,8 +49,8 @@
                   </VBox>
                   <VBox>
                      <children>
-                        <Button fx:id="bottoneTerapie" mnemonicParsing="false" onAction="#calcolaPostiLiberiInTerapiaIntensiva" prefHeight="25.0" prefWidth="248.0" text="Calcola posti iberi in terapia intensiva" />
-                        <Button fx:id="bottonePercentuale" mnemonicParsing="false" onAction="#calcolaPercentualePopolazioneContagiata" text="Calcola percentuale popolazione contagiata">
+                        <Button fx:id="bottoneTerapie" mnemonicParsing="false" onAction="#calcolaPostiLiberiInTerapiaIntensiva" prefHeight="25.0" prefWidth="261.0" text="Calcola posti liberi in terapia intensiva" />
+                        <Button fx:id="bottonePercentuale" mnemonicParsing="false" onAction="#calcolaPercentualePopolazioneContagiata" prefHeight="25.0" prefWidth="277.0" text="Calcola percentuale popolazione contagiata">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
@@ -53,7 +62,7 @@
                   </VBox>
                   <VBox>
                      <children>
-                        <Button fx:id="bottoneR0" mnemonicParsing="false" onAction="#calcolaTassoDiContagiosita" text="Calcola tasso di contagiosità " />
+                        <Button fx:id="bottoneR0" mnemonicParsing="false" onAction="#calcolaTassoDiContagiosita" prefHeight="25.0" prefWidth="165.0" text="Calcola tasso R0 " />
                         <Button fx:id="bottoneMortalita" mnemonicParsing="false" onAction="#calcolaTassoDiMortalita" prefHeight="25.0" prefWidth="169.0" text="Calcola tasso di mortalità">
                            <VBox.margin>
                               <Insets top="10.0" />
@@ -78,7 +87,7 @@
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <TextArea fx:id="graficoResult">
+                        <TextArea fx:id="txtResult">
                            <VBox.margin>
                               <Insets right="5.0" top="5.0" />
                            </VBox.margin>
@@ -89,12 +98,12 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grafico:">
                            <VBox.margin>
-                              <Insets top="10.0" />
+                              <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <TextArea fx:id="txtResult">
+                        <TextArea fx:id="graficoResult">
                            <VBox.margin>
-                              <Insets top="5.0" />
+                              <Insets left="5.0" top="5.0" />
                            </VBox.margin>
                         </TextArea>
                      </children>

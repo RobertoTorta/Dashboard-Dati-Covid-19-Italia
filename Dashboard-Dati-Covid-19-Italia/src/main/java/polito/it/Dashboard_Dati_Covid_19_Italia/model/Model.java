@@ -8,175 +8,190 @@ import java.util.TreeMap;
 import polito.it.Dashboard_Dati_Covid_19_Italia.db.DatiCovidItaliaDAO;
 
 public class Model {
-	
-	TreeMap<LocalDate,DatoNazionale> datiNazionali = new TreeMap<>();
+
+	TreeMap<LocalDate, DatoNazionale> datiNazionali = new TreeMap<>();
 	LinkedList<DatoRegionale> datiRegionaliPerGiornata = new LinkedList<>();
 	LinkedList<DatoRegionale> datiRegionaliPerRegione = new LinkedList<>();
-	TreeMap<String,DatiPerPercentuali> datiPerPercentuali= new TreeMap<>();
-	
+	TreeMap<String, DatiPerPercentuali> datiPerPercentuali = new TreeMap<>();
+
 	public Model() {
-		
-		DatiCovidItaliaDAO dao= new DatiCovidItaliaDAO();
-		
-		datiPerPercentuali=dao.estraiDatiPerPercentuali();
+
+		DatiCovidItaliaDAO dao = new DatiCovidItaliaDAO();
+
+		datiPerPercentuali = dao.estraiDatiPerPercentuali();
 		System.out.println("\nDATI UTILI PER PERCENTUALI:");
-		for(DatiPerPercentuali dp: datiPerPercentuali.values()) {
+		for (DatiPerPercentuali dp : datiPerPercentuali.values()) {
 			System.out.println(dp.toString());
 		}
-		
-		datiNazionali=dao.estraiDatiNazionali();
+
+		datiNazionali = dao.estraiDatiNazionali();
 		System.out.println("\nDATI A LIVELLO NAZIONALE GIORNO PER GIORNO:");
-		for(DatoNazionale dn: datiNazionali.values()) {
+		for (DatoNazionale dn : datiNazionali.values()) {
 			System.out.println(dn.toString());
 		}
-		
-		String dataEsempio= "2020-04-10";
-		datiRegionaliPerGiornata= dao.estraiDatiRegionaliPerGiornata(dataEsempio);
-		System.out.println("\nDATI A LIVELLO REGIONALE NEL GIORNO "+dataEsempio);
-		for(DatoRegionale dr: datiRegionaliPerGiornata) {
+
+		String dataEsempio = "2020-03-02";
+		datiRegionaliPerGiornata = dao.estraiDatiRegionaliPerGiornata(dataEsempio);
+		System.out.println("\nDATI A LIVELLO REGIONALE NEL GIORNO " + dataEsempio);
+		for (DatoRegionale dr : datiRegionaliPerGiornata) {
 			System.out.println(dr.toString());
 		}
-		
-		String regioneEsempio= "Piemonte";
-		datiRegionaliPerRegione= dao.estraiDatiRegionaPerRegione(regioneEsempio);
-		System.out.println("\nDATI DELLA REGIONE "+regioneEsempio);
-		for(DatoRegionale dr: datiRegionaliPerRegione) {
+
+		String regioneEsempio = "Abruzzo";
+		datiRegionaliPerRegione = dao.estraiDatiRegionaPerRegione(regioneEsempio);
+		System.out.println("\nDATI DELLA REGIONE " + regioneEsempio);
+		for (DatoRegionale dr : datiRegionaliPerRegione) {
 			System.out.println(dr.toString());
 		}
-		
-		System.out.println("\nPercentuale contagiati nella regione "+ regioneEsempio+ " il giorno "+ dataEsempio) ;
+
+		System.out.println("\nPercentuale contagiati nella regione " + regioneEsempio + " il giorno " + dataEsempio);
 		System.out.println(calcolaPercentualeAmmalatiPerLuogoNelGiorno(regioneEsempio, dataEsempio));
-		
+
 		System.out.println("\nPosti ancora liberi in terapia intensiva in Italia il 2020-04-03");
 		System.out.println(calcolaPostiLiberiTerapiaIntensivaPerLuogoNelGiorno("Italia", "2020-04-03"));
-		
+
 		System.out.println("\nTasso di mortalità in Lombardia il 2020-04-11");
 		System.out.println(calcolaTassoMortalitaPerLuogoNelGiorno("Lombardia", "2020-04-11"));
-		
+
 		System.out.println("\nTasso di contagiosità R0 in Italia il 2020-04-03");
 		System.out.println(calcolaTassoContagiosità("Italia", "2020-04-03"));
-		
+
 	}
-	
+
 	/**
-	 * Permette di ricavare la percentuale di contagiati sulla popolazione, nel luogo e nella data passati da parametro
-	 * Funziona sia a livello regionale che a livello nazionale
-	 * @return la percentuale float dei contatagia nella regione e nel giorno passati come parametro
+	 * Permette di ricavare la percentuale di contagiati sulla popolazione, nel
+	 * luogo e nella data passati da parametro Funziona sia a livello regionale che
+	 * a livello nazionale
+	 * 
+	 * @return la percentuale float dei contatagia nella regione e nel giorno
+	 *         passati come parametro
 	 */
 	public float calcolaPercentualeAmmalatiPerLuogoNelGiorno(String luogo, String data) {
-		float percentuale=0;
-		DatiPerPercentuali dp= datiPerPercentuali.get(luogo);
-		LocalDate giorno= LocalDate.parse(data);
-		if(luogo=="Italia") {
-			if(datiNazionali.containsKey(giorno)) {
-				percentuale= ((float) datiNazionali.get(giorno).getTotaleCasi()*100)/(float)dp.getPopolazioneTotale();
+		float percentuale = 0;
+		DatiPerPercentuali dp = datiPerPercentuali.get(luogo);
+		LocalDate giorno = LocalDate.parse(data);
+		if (luogo.equals("Italia")) {
+			if (datiNazionali.containsKey(giorno)) {
+				percentuale = ((float) datiNazionali.get(giorno).getTotaleCasi() * 100)
+						/ (float) dp.getPopolazioneTotale();
 				return percentuale;
 			}
 		}
-			
-		DatoRegionale temp=null;
-		DatiCovidItaliaDAO dao= new DatiCovidItaliaDAO();
-		for(DatoRegionale dr:dao.estraiDatiRegionaliPerGiornata(data)) {
-			if(dr.getRegione().equals(luogo))
-				temp= dr;
+
+		DatoRegionale temp = null;
+		DatiCovidItaliaDAO dao = new DatiCovidItaliaDAO();
+		for (DatoRegionale dr : dao.estraiDatiRegionaliPerGiornata(data)) {
+			if (dr.getRegione().equals(luogo))
+			temp = dr;
 		}
-		percentuale = ((float)temp.getTotaleCasi()*100)/(float)dp.getPopolazioneTotale();
-	
-		
+
+		percentuale = ((float) temp.getTotaleCasi() * 100) / (float) dp.getPopolazioneTotale();
+
 		return percentuale;
 	}
-	
+
 	/**
-	 * Permette di calcolare i posti ancora liberi in terapia intensiva, nel luogo e nella data passati da parametro
-	 * Funziona sia a livello regionale che a livello nazionale
-	 * @return il numero intero dei posti ancora disponibili in terapia intensiva nella regione e nel giorno passati come parametro
+	 * Permette di calcolare i posti ancora liberi in terapia intensiva, nel luogo e
+	 * nella data passati da parametro Funziona sia a livello regionale che a
+	 * livello nazionale
+	 * 
+	 * @return il numero intero dei posti ancora disponibili in terapia intensiva
+	 *         nella regione e nel giorno passati come parametro
 	 */
 	public int calcolaPostiLiberiTerapiaIntensivaPerLuogoNelGiorno(String luogo, String data) {
-		int postiLiberi=0;
-		DatiPerPercentuali dp= datiPerPercentuali.get(luogo);
-		LocalDate giorno= LocalDate.parse(data);
-		if(luogo=="Italia") {
-			if(datiNazionali.containsKey(giorno)) {
-				postiLiberi= dp.getPostiTerapiaIntensiva()-datiNazionali.get(giorno).getTerapiaIntensiva();
+		int postiLiberi = 0;
+		DatiPerPercentuali dp = datiPerPercentuali.get(luogo);
+		LocalDate giorno = LocalDate.parse(data);
+		if (luogo.equals("Italia")) {
+			if (datiNazionali.containsKey(giorno)) {
+				postiLiberi = dp.getPostiTerapiaIntensiva() - datiNazionali.get(giorno).getTerapiaIntensiva();
 				return postiLiberi;
 			}
 		}
-			
-		DatoRegionale temp=null;
-		DatiCovidItaliaDAO dao= new DatiCovidItaliaDAO();
-		for(DatoRegionale dr:dao.estraiDatiRegionaliPerGiornata(data)) {
-			if(dr.getRegione().equals(luogo))
-				temp= dr;
+
+		DatoRegionale temp = null;
+		DatiCovidItaliaDAO dao = new DatiCovidItaliaDAO();
+		for (DatoRegionale dr : dao.estraiDatiRegionaliPerGiornata(data)) {
+			if (dr.getRegione().equals(luogo))
+				temp = dr;
 		}
-		postiLiberi = dp.getPostiTerapiaIntensiva()-temp.getTerapiaIntensiva();	
-		
+		postiLiberi = dp.getPostiTerapiaIntensiva() - temp.getTerapiaIntensiva();
+
 		return postiLiberi;
 	}
-	
+
 	/**
-	 * Permette di calcolare il tasso di mortalità (deceduti rispetto ai contagiati) nel luogo e nella data passati da parametro
-	 * Funziona sia a livello regionale che a livello nazionale
-	 * @return il tasso (float) di mortalità nella regione e nel giorno passati come parametro
+	 * Permette di calcolare il tasso di mortalità (deceduti rispetto ai contagiati)
+	 * nel luogo e nella data passati da parametro Funziona sia a livello regionale
+	 * che a livello nazionale
+	 * 
+	 * @return il tasso (float) di mortalità nella regione e nel giorno passati come
+	 *         parametro
 	 */
 	public float calcolaTassoMortalitaPerLuogoNelGiorno(String luogo, String data) {
-		float tasso=0;
-		LocalDate giorno= LocalDate.parse(data);
-		if(luogo=="Italia") {
-			if(datiNazionali.containsKey(giorno)) {
-				tasso=((float)datiNazionali.get(giorno).getDeceduti()*100)/(float)datiNazionali.get(giorno).getTotaleCasi();
+		float tasso = 0;
+		LocalDate giorno = LocalDate.parse(data);
+		if (luogo.equals("Italia")) {
+			if (datiNazionali.containsKey(giorno)) {
+				tasso = ((float) datiNazionali.get(giorno).getDeceduti() * 100)
+						/ (float) datiNazionali.get(giorno).getTotaleCasi();
 				return tasso;
 			}
 		}
-			
-		DatoRegionale temp=null;
-		DatiCovidItaliaDAO dao= new DatiCovidItaliaDAO();
-		for(DatoRegionale dr:dao.estraiDatiRegionaliPerGiornata(data)) {
-			if(dr.getRegione().equals(luogo))
-				temp= dr;
+
+		DatoRegionale temp = null;
+		DatiCovidItaliaDAO dao = new DatiCovidItaliaDAO();
+		for (DatoRegionale dr : dao.estraiDatiRegionaliPerGiornata(data)) {
+			if (dr.getRegione().equals(luogo))
+				temp = dr;
 		}
-		tasso = ((float)temp.getDeceduti()*100)/(float) temp.getTotaleCasi();	
-		
+		tasso = ((float) temp.getDeceduti() * 100) / (float) temp.getTotaleCasi();
+
 		return tasso;
 	}
-	
+
 	/**
-	 * Permette di calcolare il tasso di contagiosità R0 (quanti persone infetta ogni contagiato) nel luogo e nella data passati da parametro
-	 * Funziona sia a livello regionale che a livello nazionale
-	 * Il tasso viene calcolato dividendo i nuovi contagiati del giorno passato come parametro per i nuovi contagiati del giorno prima
-	 * @return il tasso (float) di contagiosità nella regione e nel giorno passati come parametro
+	 * Permette di calcolare il tasso di contagiosità R0 (quanti persone infetta
+	 * ogni contagiato) nel luogo e nella data passati da parametro Funziona sia a
+	 * livello regionale che a livello nazionale Il tasso viene calcolato dividendo
+	 * i nuovi contagiati del giorno passato come parametro per i nuovi contagiati
+	 * del giorno prima
+	 * 
+	 * @return il tasso (float) di contagiosità nella regione e nel giorno passati
+	 *         come parametro
 	 */
 	public float calcolaTassoContagiosità(String luogo, String data) {
-		float tasso=0;
-		LocalDate giorno= LocalDate.parse(data);
-		LocalDate giornoPrima =giorno.minusDays(1);
+		float tasso = 0;
+		LocalDate giorno = LocalDate.parse(data);
+		LocalDate giornoPrima = giorno.minusDays(1);
 		String dataGiornoPrima = giornoPrima.toString();
-		if(luogo=="Italia") {
-			if(datiNazionali.containsKey(giorno)) {
-				tasso=((float)datiNazionali.get(giorno).getNuoviPositivi())/(float)datiNazionali.get(giornoPrima).getNuoviPositivi();
+		if (luogo.equals("Italia")) {
+			if (datiNazionali.containsKey(giorno)) {
+				tasso = ((float) datiNazionali.get(giorno).getNuoviPositivi())
+						/ (float) datiNazionali.get(giornoPrima).getNuoviPositivi();
 				return tasso;
 			}
 		}
-			
-		DatoRegionale temp=null;
-		DatiCovidItaliaDAO dao= new DatiCovidItaliaDAO();
-		for(DatoRegionale dr:dao.estraiDatiRegionaliPerGiornata(data)) {
-			if(dr.getRegione().equals(luogo))
-				temp= dr;
+
+		DatoRegionale temp = null;
+		DatiCovidItaliaDAO dao = new DatiCovidItaliaDAO();
+		for (DatoRegionale dr : dao.estraiDatiRegionaliPerGiornata(data)) {
+			if (dr.getRegione().equals(luogo))
+				temp = dr;
 		}
-		
-		DatoRegionale tempGiornoPrima=null;
-		for(DatoRegionale dr:dao.estraiDatiRegionaliPerGiornata(dataGiornoPrima)) {
-			if(dr.getRegione().equals(luogo))
-				tempGiornoPrima= dr;
+
+		DatoRegionale tempGiornoPrima = null;
+		for (DatoRegionale dr : dao.estraiDatiRegionaliPerGiornata(dataGiornoPrima)) {
+			if (dr.getRegione().equals(luogo))
+				tempGiornoPrima = dr;
 		}
-		tasso = ((float)temp.getNuoviPositivi()/ (float) tempGiornoPrima.getNuoviPositivi());	
-		
+		tasso = ((float) temp.getNuoviPositivi() / (float) tempGiornoPrima.getNuoviPositivi());
+
 		return tasso;
 	}
-	
-	
+
 	public static void main(String[] args) {
-		Model m= new Model();
-				
+		Model m = new Model();
+
 	}
 }

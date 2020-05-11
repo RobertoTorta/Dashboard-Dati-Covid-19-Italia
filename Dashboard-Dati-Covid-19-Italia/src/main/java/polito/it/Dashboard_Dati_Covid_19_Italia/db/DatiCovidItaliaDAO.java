@@ -59,13 +59,12 @@ public class DatiCovidItaliaDAO {
 	 * @return una lista (Linked) dei dati di ogni regione nella data passata come parametro
 	 */
 	public LinkedList<DatoRegionale> estraiDatiRegionaliPerGiornata(String dataDaCercare) {
-		String sql = "SELECT data , denominazione_regione, terapia_intensiva, nuovi_positivi, dimessi_guariti, deceduti, totale_casi FROM datiregionali WHERE data=?" ;
+		String sql = "SELECT data , denominazione_regione, terapia_intensiva, nuovi_positivi, dimessi_guariti, deceduti, totale_casi FROM datiregionali WHERE SUbstr(data,1,10)=?" ;
 		LinkedList<DatoRegionale> datiRegionali = new LinkedList<>();
-		
 		try {
 			Connection conn = DBConnect.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);
-			st.setString(1, dataDaCercare+"T170000");
+			st.setString(1, dataDaCercare);
 			ResultSet rs = st.executeQuery();
 			
 			while (rs.next()) {

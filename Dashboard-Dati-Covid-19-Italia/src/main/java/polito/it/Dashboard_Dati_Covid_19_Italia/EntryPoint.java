@@ -2,25 +2,32 @@ package polito.it.Dashboard_Dati_Covid_19_Italia;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import polito.it.Dashboard_Dati_Covid_19_Italia.model.Model;
 
 
 public class EntryPoint extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
+    	Parent root = loader.load();
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
+         
+        Model model = new Model();
+        FXMLController controller = loader.getController();
+        controller.setModel(model);
         
-        stage.setTitle("JavaFX and Maven");
+        stage.setTitle("FlightDelays");
         stage.setScene(scene);
         stage.show();
     }
+    
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
