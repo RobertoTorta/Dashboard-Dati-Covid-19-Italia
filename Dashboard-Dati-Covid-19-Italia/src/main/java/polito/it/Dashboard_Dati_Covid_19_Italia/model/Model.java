@@ -10,27 +10,34 @@ import polito.it.Dashboard_Dati_Covid_19_Italia.db.DatiCovidItaliaDAO;
 
 public class Model {
 
-	TreeMap<LocalDate, DatoNazionale> datiNazionali = new TreeMap<>();
-	LinkedList<DatoRegionale> datiRegionaliPerGiornata = new LinkedList<>();
-	LinkedList<DatoRegionale> datiRegionaliPerRegione = new LinkedList<>();
-	TreeMap<String, DatiPerPercentuali> datiPerPercentuali = new TreeMap<>();
+	TreeMap<LocalDate, DatoNazionale> datiNazionali;
+	LinkedList<DatoRegionale> datiRegionaliPerGiornata;
+	LinkedList<DatoRegionale> datiRegionaliPerRegione;
+	TreeMap<String, DatiPerPercentuali> datiPerPercentuali;
 
 	public Model() {
-
+		datiNazionali = new TreeMap<>();
+		datiRegionaliPerGiornata = new LinkedList<>();
+		datiRegionaliPerRegione = new LinkedList<>();
+		datiPerPercentuali = new TreeMap<>();
 		DatiCovidItaliaDAO dao = new DatiCovidItaliaDAO();
 
 		datiPerPercentuali = dao.estraiDatiPerPercentuali();
+		datiNazionali = dao.estraiDatiNazionali();
+		
+		
+		/* CODICE PER DEBUG 
 		System.out.println("\nDATI UTILI PER PERCENTUALI:");
 		for (DatiPerPercentuali dp : datiPerPercentuali.values()) {
-			System.out.println(dp.toString());
+			//System.out.println(dp.toString());
 		}
 
-		datiNazionali = dao.estraiDatiNazionali();
+		
 		System.out.println("\nDATI A LIVELLO NAZIONALE GIORNO PER GIORNO:");
 		for (DatoNazionale dn : datiNazionali.values()) {
 			System.out.println(dn.toString());
 		}
-
+		
 		String dataEsempio = "2020-03-02";
 		datiRegionaliPerGiornata = dao.estraiDatiRegionaliPerGiornata(dataEsempio);
 		System.out.println("\nDATI A LIVELLO REGIONALE NEL GIORNO " + dataEsempio);
@@ -56,7 +63,7 @@ public class Model {
 
 		System.out.println("\nTasso di contagiosità R0 in Italia il 2020-04-03");
 		System.out.println(calcolaTassoContagiosità("Italia", "2020-04-03"));
-
+	*/
 	}
 
 	/**

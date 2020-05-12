@@ -173,9 +173,9 @@ public class FXMLController {
 		
 		DatoPerGrafico dpg= model.estraiDatiPerGrafico(regioneDesiderata);
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-				new PieChart.Data("Totale Casi", dpg.getTotaleCasi()),
-				new PieChart.Data("Deceduti", dpg.getTotaleDecessi()),
-				new PieChart.Data("Guariti", dpg.getGuariti()));
+				new PieChart.Data("Totale Casi = "+dpg.getTotaleCasi(), dpg.getTotaleCasi()),
+				new PieChart.Data("Deceduti = "+dpg.getTotaleDecessi(), dpg.getTotaleDecessi()),
+				new PieChart.Data("Guariti = "+dpg.getGuariti(), dpg.getGuariti()));
 		graficoResult.setData(pieChartData);
 
     }

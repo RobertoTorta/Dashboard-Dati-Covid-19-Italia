@@ -150,7 +150,11 @@ public class DatiCovidItaliaDAO {
 		}
 		return datiPerPercentuali;
 	}
-	
+	/**
+	 * Permette di estrarre totale casi, deceduti e dimessi a livello regionale e nazionale
+	 * @param regione della quale servono i parametri
+	 * @return l'oggetto DatoPerGrafico
+	 */
 	public DatoPerGrafico estraiDatiPerGrafico(String regione){
 		String sql;
 		if(regione.equals("Italia")) 
@@ -165,9 +169,7 @@ public class DatiCovidItaliaDAO {
 			PreparedStatement st = conn.prepareStatement(sql);
 			if(!regione.equals("Italia")) {
 				st.setString(1, regione);
-				System.out.println(sql);
 			}
-			System.out.println(sql);
 			ResultSet rs = st.executeQuery();
 			rs.next();
 			dpg= new DatoPerGrafico(rs.getInt("totale_casi"), rs.getInt("deceduti"), rs.getInt("dimessi_guariti"));
