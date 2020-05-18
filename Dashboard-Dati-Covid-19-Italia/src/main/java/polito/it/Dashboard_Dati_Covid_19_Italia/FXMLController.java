@@ -36,12 +36,6 @@ public class FXMLController {
 	    @FXML // URL location of the FXML file that was given to the FXMLLoader
 	    private URL location;
 
-	    @FXML // fx:id="bottonePreparaDati"
-	    private Button bottonePreparaDati; // Value injected by FXMLLoader
-
-	    @FXML // fx:id="bottoneVisualizzaGrafico"
-	    private Button bottoneVisualizzaGrafico; // Value injected by FXMLLoader
-
 	    @FXML // fx:id="comboBoxData"
 	    private ComboBox<LocalDate> comboBoxData; // Value injected by FXMLLoader
 
@@ -68,11 +62,23 @@ public class FXMLController {
 
 	    @FXML // fx:id="bottoneSimulazione"
 	    private Button bottoneSimulazione; // Value injected by FXMLLoader
+	   
+	
 	    
 	@FXML
 	void avviaSimulazione(ActionEvent event) {
 
 	}
+	
+    @FXML
+    void selezionataData(ActionEvent event) {
+		disegnaGrafico();
+    }
+    
+	@FXML
+    void selezionataRegione(ActionEvent event) {
+		disegnaGrafico();
+    }
 
 	@FXML
 	void calcolaPercentualePopolazioneContagiata(ActionEvent event) {
@@ -142,36 +148,15 @@ public class FXMLController {
 		
 	}
 
-	@FXML
-	void preparaDati(ActionEvent event) {
-		this.dao = new DatiCovidItaliaDAO();
-		this.datiNazionali = new TreeMap<>(dao.estraiDatiNazionali());
-		this.datiRegionaliPerGiornata = new LinkedList<>();
-		this.datiRegionaliPerRegione = new LinkedList<>();
-		this.datiPerPercentuali = new TreeMap<>(dao.estraiDatiPerPercentuali());
-		this.model = new Model();
-		LinkedList<LocalDate> elencoDate = new LinkedList<LocalDate>(datiNazionali.keySet());
-		LocalDate partenza = LocalDate.parse("2020-02-29");
-
-		for (LocalDate d : elencoDate)
-			if (d.isAfter(partenza))
-				comboBoxData.getItems().add(d);
-		comboBoxRegione.getItems().addAll(datiPerPercentuali.keySet());
-		
-
-	}
 	
-    @FXML
-    void disegnaGrafico(ActionEvent event) {
+	
+   
+    void disegnaGrafico() {
    
 		String regioneDesiderata = comboBoxRegione.getValue();
-		if (regioneDesiderata == null) {
-			txtResult.appendText("Selezionare una regione!!");
-			return;
-
-		}
+		LocalDate dataDesiderata = comboBoxData.getValue(); 
 		
-		DatoPerGrafico dpg= model.estraiDatiPerGrafico(regioneDesiderata);
+		DatoPerGrafico dpg= model.estraiDatiPerGrafico(regioneDesiderata,dataDesiderata);
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data("Totale Casi = "+dpg.getTotaleCasi(), dpg.getTotaleCasi()),
 				new PieChart.Data("Deceduti = "+dpg.getTotaleDecessi(), dpg.getTotaleDecessi()),
@@ -182,8 +167,6 @@ public class FXMLController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        assert bottonePreparaDati != null : "fx:id=\"bottonePreparaDati\" was not injected: check your FXML file 'Scene.fxml'.";
-        assert bottoneVisualizzaGrafico != null : "fx:id=\"bottoneVisualizzaGrafico\" was not injected: check your FXML file 'Scene.fxml'.";
         assert comboBoxData != null : "fx:id=\"comboBoxData\" was not injected: check your FXML file 'Scene.fxml'.";
         assert comboBoxRegione != null : "fx:id=\"comboBoxRegione\" was not injected: check your FXML file 'Scene.fxml'.";
         assert bottoneTerapie != null : "fx:id=\"bottoneTerapie\" was not injected: check your FXML file 'Scene.fxml'.";
@@ -198,6 +181,24 @@ public class FXMLController {
 
 	public void setModel(Model model) {
 		this.model = model;
+		this.dao = new DatiCovidItaliaDAO();
+		this.datiNazionali = new TreeMap<>(dao.estraiDatiNazionali());
+		this.datiRegionaliPerGiornata = new LinkedList<>();
+		this.datiRegionaliPerRegione = new LinkedList<>();
+		this.datiPerPercentuali = new TreeMap<>(dao.estraiDatiPerPercentuali());
+		this.model = new Model();
+		LinkedList<LocalDate> elencoDate = new LinkedList<LocalDate>(datiNazionali.keySet());
+		LocalDate partenza = LocalDate.parse("2020-02-29");
 
+		for (LocalDate d : elencoDate)
+			if (d.isAfter(partenza))
+				comboBoxData.getItems().add(d);
+		comboBoxRegione.getItems().addAll(datiPerPercentuali.keySet());
+		
+		comboBoxRegione.setValue("Italia");	 
+		comboBoxData.setValue(elencoDate.get(elencoDate.size()-1));
+		disegnaGrafico();
 	}
+	
+	
 }

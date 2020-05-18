@@ -14,13 +14,14 @@ public class Model {
 	LinkedList<DatoRegionale> datiRegionaliPerGiornata;
 	LinkedList<DatoRegionale> datiRegionaliPerRegione;
 	TreeMap<String, DatiPerPercentuali> datiPerPercentuali;
+	DatiCovidItaliaDAO dao;
 
 	public Model() {
 		datiNazionali = new TreeMap<>();
 		datiRegionaliPerGiornata = new LinkedList<>();
 		datiRegionaliPerRegione = new LinkedList<>();
 		datiPerPercentuali = new TreeMap<>();
-		DatiCovidItaliaDAO dao = new DatiCovidItaliaDAO();
+		dao = new DatiCovidItaliaDAO();
 
 		datiPerPercentuali = dao.estraiDatiPerPercentuali();
 		datiNazionali = dao.estraiDatiNazionali();
@@ -198,14 +199,11 @@ public class Model {
 		return tasso;
 	}
 	
-	public DatoPerGrafico estraiDatiPerGrafico(String regione){
+	public DatoPerGrafico estraiDatiPerGrafico(String regione,LocalDate data){
 		DatiCovidItaliaDAO dao = new DatiCovidItaliaDAO();
 		
-		return dao.estraiDatiPerGrafico(regione);
+		return dao.estraiDatiPerGrafico(regione,data);
 	}
 
-	public static void main(String[] args) {
-		Model m = new Model();
 
-	}
 }

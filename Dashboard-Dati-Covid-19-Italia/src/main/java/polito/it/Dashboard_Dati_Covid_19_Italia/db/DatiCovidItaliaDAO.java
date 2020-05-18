@@ -155,21 +155,24 @@ public class DatiCovidItaliaDAO {
 	 * @param regione della quale servono i parametri
 	 * @return l'oggetto DatoPerGrafico
 	 */
-	public DatoPerGrafico estraiDatiPerGrafico(String regione){
+	public DatoPerGrafico estraiDatiPerGrafico(String regione,LocalDate data){
 		String sql;
 		if(regione.equals("Italia")) 
-			sql = "SELECT totale_casi, deceduti , dimessi_guariti FROM datiNazionali WHERE data=(SELECT MAX(data) FROM datiNazionali)" ;
+			sql = "SELECT totale_casi, deceduti , dimessi_guariti FROM datiNazionali WHERE SUbstr(data,1,12) like ?";
 		else
-			sql="SELECT totale_casi, deceduti , dimessi_guariti FROM datiRegionali WHERE denominazione_regione=? AND data=(SELECT MAX(data) FROM datiRegionali)";
+			sql="SELECT totale_casi, deceduti , dimessi_guariti FROM datiRegionali WHERE SUbstr(data,1,10)=? AND denominazione_regione=?";
 		
 		DatoPerGrafico dpg;
 		
 		try {
 			Connection conn = DBConnect.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, "%"+data.toString());
 			if(!regione.equals("Italia")) {
-				st.setString(1, regione);
+				st.setString(1, data.toString());
+				st.setString(2, regione);	
 			}
+
 			ResultSet rs = st.executeQuery();
 			rs.next();
 			dpg= new DatoPerGrafico(rs.getInt("totale_casi"), rs.getInt("deceduti"), rs.getInt("dimessi_guariti"));

@@ -25,28 +25,18 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Text>
-                  <Button fx:id="bottonePreparaDati" mnemonicParsing="false" onAction="#preparaDati" text="Prepara i dati">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="bottoneVisualizzaGrafico" mnemonicParsing="false" onAction="#disegnaGrafico" prefHeight="25.0" prefWidth="128.0" text="Visualizza grafico">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </Button>
                </children>
             </HBox>
             <HBox>
                <children>
                   <VBox>
                      <children>
-                        <ComboBox fx:id="comboBoxData" prefHeight="25.0" prefWidth="171.0" promptText="Scegli la data">
+                        <ComboBox fx:id="comboBoxData" onAction="#selezionataData" prefHeight="25.0" prefWidth="171.0" promptText="Scegli la data">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                         </ComboBox>
-                        <ComboBox fx:id="comboBoxRegione" prefHeight="25.0" prefWidth="156.0" promptText="Scegli la regione">
+                        <ComboBox fx:id="comboBoxRegione" onAction="#selezionataRegione" prefHeight="25.0" prefWidth="156.0" promptText="Scegli la regione">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
