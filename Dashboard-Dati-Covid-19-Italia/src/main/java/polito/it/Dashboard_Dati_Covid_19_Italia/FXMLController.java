@@ -1,5 +1,6 @@
 package polito.it.Dashboard_Dati_Covid_19_Italia;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -10,10 +11,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import polito.it.Dashboard_Dati_Covid_19_Italia.db.DatiCovidItaliaDAO;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatiPerPercentuali;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatoNazionale;
@@ -66,8 +71,19 @@ public class FXMLController {
 	
 	    
 	@FXML
-	void avviaSimulazione(ActionEvent event) {
+	void avviaSimulazione(ActionEvent event) throws IOException {
 
+		Stage stage = null;
+        BorderPane root = null;
+        stage = (Stage) bottoneSimulazione.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene2.fxml"));
+        root = loader.load();
+        SimulazioneController controller=loader.getController();
+        Model model=new Model(); 
+        controller.setModel(model);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 	}
 	
     @FXML

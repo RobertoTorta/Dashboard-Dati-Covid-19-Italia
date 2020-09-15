@@ -37,7 +37,7 @@ public class DatiCovidItaliaDAO {
 			
 			while (rs.next()) {
 				String dataString= rs.getString("data");
-				LocalDate data= LocalDate.parse(((String)dataString.substring(2, 12)));
+				LocalDate data= LocalDate.parse(((String)dataString.substring(0, 10)));
 				datiNazionali.put(data,new DatoNazionale(data,
 					rs.getInt("terapia_intensiva"),rs.getInt("nuovi_positivi"),
 					rs.getInt("dimessi_guariti"),rs.getInt("deceduti"),rs.getInt("totale_casi")));
@@ -158,7 +158,7 @@ public class DatiCovidItaliaDAO {
 	public DatoPerGrafico estraiDatiPerGrafico(String regione,LocalDate data){
 		String sql;
 		if(regione.equals("Italia")) 
-			sql = "SELECT totale_casi, deceduti , dimessi_guariti FROM datiNazionali WHERE SUbstr(data,1,12) like ?";
+			sql = "SELECT totale_casi, deceduti , dimessi_guariti FROM datiNazionali WHERE SUbstr(data,1,10) like ?";//
 		else
 			sql="SELECT totale_casi, deceduti , dimessi_guariti FROM datiRegionali WHERE SUbstr(data,1,10)=? AND denominazione_regione=?";
 		

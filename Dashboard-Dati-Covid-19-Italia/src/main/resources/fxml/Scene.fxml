@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polito.it.Dashboard_Dati_Covid_19_Italia.FXMLController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="polito.it.Dashboard_Dati_Covid_19_Italia.FXMLController">
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
@@ -74,7 +74,7 @@
                   <Insets left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox>
+            <HBox prefHeight="256.0" prefWidth="610.0">
                <children>
                   <VBox>
                      <children>
@@ -83,7 +83,7 @@
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <TextArea fx:id="txtResult">
+                        <TextArea fx:id="txtResult" prefHeight="272.0">
                            <VBox.margin>
                               <Insets right="5.0" top="5.0" />
                            </VBox.margin>
@@ -100,21 +100,25 @@
                         <PieChart fx:id="graficoResult" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0" />
-                     </children>
-                  </VBox>
                </children>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
                </VBox.margin>
             </HBox>
-            <Button fx:id="bottoneSimulazione" mnemonicParsing="false" onAction="#avviaSimulazione" prefHeight="25.0" prefWidth="209.0" text="Avvia una simulazione di epidemia">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="200.0" top="10.0" />
-               </VBox.margin>
-            </Button>
+            <VBox prefHeight="77.0" prefWidth="513.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dati reperiti dal dipartimento della protezione civile, aggiornati al 13 settembre 2020.">
+                     <VBox.margin>
+                        <Insets left="80.0" top="15.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Collegamento repository:  https://github.com/pcm-dpc/COVID-19">
+                     <VBox.margin>
+                        <Insets left="120.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
          </children>
       </VBox>
    </center>
@@ -128,4 +132,11 @@
          </font>
       </Text>
    </top>
+   <bottom>
+      <Button fx:id="bottoneSimulazione" mnemonicParsing="false" onAction="#avviaSimulazione" prefHeight="25.0" prefWidth="210.0" text="Avvia una simulazione di epidemia" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="15.0" />
+         </BorderPane.margin>
+      </Button>
+   </bottom>
 </BorderPane>
