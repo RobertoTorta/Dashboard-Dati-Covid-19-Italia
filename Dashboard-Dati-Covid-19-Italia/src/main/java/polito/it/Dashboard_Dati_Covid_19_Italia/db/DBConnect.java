@@ -16,8 +16,8 @@ public class DBConnect {
 			ds = new HikariDataSource();
 
 			ds.setJdbcUrl(jdbcURL);
-			ds.setUsername("root");
-			ds.setPassword("roby030197");
+			ds.setUsername("");
+			ds.setPassword("");
 			ds.addDataSourceProperty("cachePrepStmts", "true");
 			ds.addDataSourceProperty("prepStmtCacheSize", "250");
 			ds.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
