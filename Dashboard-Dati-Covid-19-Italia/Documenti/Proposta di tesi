@@ -1,0 +1,62 @@
+###Studente proponente:
+
+s236929 Roberto Torta
+
+###Titolo della proposta:
+
+Dashboard Dati Covid-19 Italia
+
+###Descrizione del problema proposto:
+
+Il programma si propone di fornire una interfaccia grafica per la visualizzazione semplificata dei dati
+nazionali e regionali sul contagio da Covid-19 in Italia, inoltre si intende creare un algoritmo che simula la trasmissione 
+di un virus al variare delle condizioni poste dall'user.
+
+###Descrizione della rilevanza gestionale del problema:
+
+Riuscire ad avere accesso ai dati aggiornati del contagio, in modo pratico ed intuitivo, potendosi concentrare sul periodo e 
+sulla regione di propria preferenza. Inoltre la parte di simulazione del contagio permetterà all'utente di vedere intuitivamente 
+quanto una risposta tempestiva al contagio permetta di contenere la situazione.
+
+###Descrizione dei data-set per la valutazione:
+
+I dati verranno presi dal repository del dipartimento della protezione civile italiana (https://github.com/pcm-dpc/COVID-19), 
+verranno scaricati in formato csv tramite wget, caricati su HeidiSQL in un database creato manualmente tramite l'importazione 
+di file csv per poi poter effettuare le interrogazioni sql desiderate.
+In particolare si creeranno una tabella per i dati a livello nazionale ed una parallela per i dati a livello regionale.
+Inoltre verrà creata una tabella per ospitare i dati sul numero della popolazione italiana e delle terapie intensive regione per 
+regione.
+
+###Descrizione preliminare degli algoritmi coinvolti:
+
+I principali problemi da affrontare saranno, una volta creati i database, creare i metodi per estrarre i dati in modo funzionale 
+alle operazioni da eseguire in seguito, creare i metodi che permettano di calcolare agilmente i vari tassi richiesti dall'user, 
+a seconda della data e della regione richieste da esso. Verranno poi creati metodi per il calcolo dei tassi partendo da dati di 
+input.
+
+L'ultimo passo sarà quello di creare un algoritmo di simulazione del contagio.
+Lo stato del mondo corrisponderà al numero dei contagiati totali, a quello dei morti ed a quello dei guariti.
+L'algoritmo partirà con N persone contagiate (passate da parametro), a ciascuna di loro sarà assegnata, sempre dall'user, una 
+probabilità di contagiare altre persone, una di guarire ed una di morire; queste probabilità verranno modificate ogni volta che 
+una persona passerà nella coda degli eventi, alzando la probabilità di morire o di guarire a scapito di quella di contagiare 
+altre persone. Sempre l'utente sceglierà dopo quanti giorni una persona, venuta a contatto con il virus, inizierà a sviluppare 
+sintomi, e di conseguenza iniziare a sua volta a contagiare.
+L'utente inoltre potrà scegliere tramite interfaccia grafica di modificare le probabilità dei 3 eventi (ad esempio aumentare 
+la probabilità di morte simulando la saturazione degli ospedali, aumentare la probabilità di guarigione con trattamenti 
+specializzati, diminuire il livello di contagiosità introducendo il distanziamento sociale).
+Inoltre a ogni persona della simulazione verrà assegnato casualmente un valore numerico, che simulerà l'età del paziente in 
+questione e modificherà a sua volta il valori probabilistici.
+La simulazione terminerà una volta esaurite tutte le persone nelle code degli eventi oppure dopo N giorni simulati 
+(scelti sempre dall'user), le persone smetteranno di contagiare e si andrà ad esaurire i contagiati già presenti, i risultati 
+ottenuti dell'algoritmo saranno quindi stampati a video e resi fruibili in forma grafica ed intuitiva.
+
+###Descrizione preliminare delle funzionalità previste per l'applicazione software:
+
+L'interfaccia sarà dotata di menù a tendine per leggere i dati a livello nazionale e regionale, nei giorni scelti dall'user, 
+sono previsti metodi per calcolare il tasso di contagiosità R0, il tasso di mortalità, i posti disponibili in terapia intensiva 
+e le percentuali di contagiati.
+Verrà inoltre fornito un tasto per la creazione a video di un grafico riguardante i decessi, i guariti, e il totale dei casi, 
+sempre a seconda della regione di input.
+La parte di simulazione permetterà di scegliere il numero di contagiati di partenza tra un range predefinito e di settare i 
+vari parametri che influenzeranno le probabilità della simulazione e la sua durata. I risultati dovranno essere mostrati a 
+video sia in formato grafico che in formato testuale.

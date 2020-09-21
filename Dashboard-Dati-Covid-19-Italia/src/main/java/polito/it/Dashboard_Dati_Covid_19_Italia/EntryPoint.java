@@ -8,19 +8,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import polito.it.Dashboard_Dati_Covid_19_Italia.model.Model;
+import polito.it.Dashboard_Dati_Covid_19_Italia.model.Analisi;
 
 
 public class EntryPoint extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ScenaAnalisi.fxml"));
     	Parent root = loader.load();
         Scene scene = new Scene(root);
          
-        Model model = new Model();
-        FXMLController controller = loader.getController();
+        Analisi model = new Analisi();
+        AnalisiDatiController controller = loader.getController();
         controller.setModel(model);
         
         stage.setTitle("Analisi Covid");

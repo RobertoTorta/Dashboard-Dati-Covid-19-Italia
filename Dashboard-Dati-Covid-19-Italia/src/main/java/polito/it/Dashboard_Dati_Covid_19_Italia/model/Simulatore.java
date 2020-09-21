@@ -7,10 +7,8 @@ import java.util.PriorityQueue;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.Event.EventType;
 
 public class Simulatore {
-
 	// PARAMETRI MODIFICABILI DA INTERFACCIA
-
-	private double trattamentoPlasma;
+	private double trattamentoSpecializzato;
 	private double ospedaliSaturi;
 	private double distanziamento;
 	private int contagiatiIniziali;
@@ -25,7 +23,7 @@ public class Simulatore {
 		this.contagiatiIniziali = contagiatiIniziali;
 		this.settimanaDiFine = settimanaDiFine;
 		this.distanziamento = distanziamento;
-		this.trattamentoPlasma = trattamentoPlasma;
+		this.trattamentoSpecializzato = trattamentoPlasma;
 		this.ospedaliSaturi = ospedaliSaturi;
 		this.probContagioBase=probabilitaContagioIniziale;
 		this.probMorteBase=probabilitaDecessoIniziale;
@@ -34,16 +32,12 @@ public class Simulatore {
 	}
 
 	// PARAMETRI DI SIMULAZIONE
-
 	private double diminuazioneProbContagio = 0.1;
 	private double aumentoProbMorte = 0.05;
 	private double aumentoProbGuarigione = 0.35;
 	private double probContagioIniziale;
 	private double probMorteIniziale;
 	private double probGuarigioneIniziale;
-
-	// STATO DEL SISTEMA
-	List<Persona> contagiati;
 
 	// OUTPUT
 
@@ -63,7 +57,7 @@ public class Simulatore {
 		this.totaleContagiati = this.totaleGuariti = this.totaleMorti = 0;
 		this.probContagioIniziale = this.probContagioBase - this.distanziamento;
 		this.probMorteIniziale = this.probMorteBase + this.ospedaliSaturi;
-		this.probGuarigioneIniziale = this.probGuarigioneBase + trattamentoPlasma;
+		this.probGuarigioneIniziale = this.probGuarigioneBase + trattamentoSpecializzato;
 
 		// genero gli eventi iniziali
 		for (int i = 0; i < contagiatiIniziali; i++) {
@@ -75,7 +69,6 @@ public class Simulatore {
 	}
 
 	// ESECUZIONE
-
 	public void run() {
 		while (!queue.isEmpty()) {
 			Event e = this.queue.poll();
@@ -84,9 +77,7 @@ public class Simulatore {
 	}
 
 	private void processEvent(Event e) {
-
 		double probabilita;
-		
 		switch (e.getType()) {
 		case CONTAGIA:
 			// la persona potrebbe contagiare un'altra persona, in questo caso creo una persona nuova ed aggiungo
@@ -99,7 +90,6 @@ public class Simulatore {
 				totaleContagiati++;
 			}
 			break;
-
 		case GUARISCI:
 			// la persona potrebbe guarire, se non guarisce mi aggiuge alla coda la
 			// probabilità di morire nello stesso giorno
@@ -109,20 +99,16 @@ public class Simulatore {
 			} else {
 				queue.add(new Event(EventType.DECEDI, e.getGiorno(), e.getPersona()));
 			}
-
 			break;
-
 		case DECEDI:
 			// la persona potrebbe morire, altrimenti si modificano le probabilità e si crea
 			// un evento contagia e uno guarisci per il giorno dopo
-
 			probabilita = e.getPersona().getProbabilitaDecesso();
 			if (Math.random() <= probabilita) {
 				totaleMorti++;
 				break;
 			}
 			// Aggiorno le probabilità, diminuendo la probabilità di contagiare ed aumentando quella di guarire e di morire
-			
 			if (e.getPersona().getProbabilitaContagio() > 0)
 				e.getPersona().setProbabilitaContagio(e.getPersona().getProbabilitaContagio() - diminuazioneProbContagio);
 			if (e.getPersona().getProbabilitaDecesso() < 1)

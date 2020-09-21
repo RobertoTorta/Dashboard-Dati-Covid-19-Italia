@@ -1,0 +1,17 @@
+Istruzioni per l'installazione e l'utilizzo dell'applicazione:
+
+1 - Forkare il repository del progetto ( URI: https://github.com/TdP-prove-finali/TortaRoberto );
+
+2 - Consultare l'elaborato;
+
+3 - Visionare il video di presentazione, URI: https://www.youtube.com/watch?v=xvOfxPU52gg&feature=youtu.be ;
+
+4 - Caricare il file daticoviditalia.sql, contenuto nella cartella "db", sul proprio database MySQL;
+
+5 - Andare nella classe DBConnect nel pacchetto db e inserire le proprie credenziali di accesso (user e password) al proprio MySQL;
+
+6 - Eseguire la classe "Main" per avviare l'applicazione;
+
+7 - Testare il sistema con tutte le modalità desiderate;
+
+8 - Eventualmente modificare il codice per apportare tutte le modifiche che si desiderano.

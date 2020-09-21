@@ -24,16 +24,12 @@ import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatiPerPercentuali;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatoNazionale;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatoPerGrafico;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.DatoRegionale;
-import polito.it.Dashboard_Dati_Covid_19_Italia.model.Model;
+import polito.it.Dashboard_Dati_Covid_19_Italia.model.Analisi;
 
-public class FXMLController {
+public class AnalisiDatiController {
 
-	private Model model;
-	DatiCovidItaliaDAO dao;
-	TreeMap<LocalDate, DatoNazionale> datiNazionali;
-	LinkedList<DatoRegionale> datiRegionaliPerGiornata;
-	LinkedList<DatoRegionale> datiRegionaliPerRegione;
-	TreeMap<String, DatiPerPercentuali> datiPerPercentuali;
+	private Analisi model;
+	
 
 	 @FXML // ResourceBundle that was given to the FXMLLoader
 	    private ResourceBundle resources;
@@ -76,10 +72,10 @@ public class FXMLController {
 		Stage stage = null;
         BorderPane root = null;
         stage = (Stage) bottoneSimulazione.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene2.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ScenaSimulazione.fxml"));
         root = loader.load();
         SimulazioneController controller=loader.getController();
-        Model model=new Model(); 
+        Analisi model=new Analisi(); 
         controller.setModel(model);
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -164,9 +160,6 @@ public class FXMLController {
 		
 	}
 
-	
-	
-   
     void disegnaGrafico() {
    
 		String regioneDesiderata = comboBoxRegione.getValue();
@@ -195,14 +188,14 @@ public class FXMLController {
 
     }
 
-	public void setModel(Model model) {
+	public void setModel(Analisi model) {
 		this.model = model;
 		this.dao = new DatiCovidItaliaDAO();
 		this.datiNazionali = new TreeMap<>(dao.estraiDatiNazionali());
 		this.datiRegionaliPerGiornata = new LinkedList<>();
 		this.datiRegionaliPerRegione = new LinkedList<>();
 		this.datiPerPercentuali = new TreeMap<>(dao.estraiDatiPerPercentuali());
-		this.model = new Model();
+		this.model = new Analisi();
 		LinkedList<LocalDate> elencoDate = new LinkedList<LocalDate>(datiNazionali.keySet());
 		LocalDate partenza = LocalDate.parse("2020-02-29");
 
@@ -216,5 +209,10 @@ public class FXMLController {
 		disegnaGrafico();
 	}
 	
+	DatiCovidItaliaDAO dao;
+	TreeMap<LocalDate, DatoNazionale> datiNazionali;
+	LinkedList<DatoRegionale> datiRegionaliPerGiornata;
+	LinkedList<DatoRegionale> datiRegionaliPerRegione;
+	TreeMap<String, DatiPerPercentuali> datiPerPercentuali;
 	
 }

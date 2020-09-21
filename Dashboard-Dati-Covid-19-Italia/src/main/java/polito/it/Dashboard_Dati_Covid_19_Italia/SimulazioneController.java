@@ -17,13 +17,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
-import polito.it.Dashboard_Dati_Covid_19_Italia.model.Model;
+import polito.it.Dashboard_Dati_Covid_19_Italia.model.Analisi;
 import polito.it.Dashboard_Dati_Covid_19_Italia.model.Simulatore;
 import javafx.scene.control.TextField;
 
 public class SimulazioneController {
 
-	Model model;
+	Analisi model;
 	
     @FXML
     private ResourceBundle resources;
@@ -82,16 +82,13 @@ public class SimulazioneController {
        	double probabilitaContagioIniziale;
        	double probabilitaDecessoIniziale;
        	double probabilitaGuarigioneIniziale;
-       	
-   
-       	
+       	    	
     	contagiatiIniziali = (int) this.sldContagiIniziali.getValue();
        	settimanaDiFine = (int) this.sldSettimane.getValue();
        	giorniDaAsintomatico = (int) this.sldGiorniDaAsintomatico.getValue();
        	probabilitaContagioIniziale = (double) this.sldProbabilitaContagioIniziale.getValue();
        	probabilitaDecessoIniziale = (double) this.sldProbabilitaDecessoIniziale.getValue();
        	probabilitaGuarigioneIniziale = (double) this.sldProbabilitaGuarigioneIniziale.getValue();
-       	
     	
        	if(this.cBoxTrattamenti.isSelected()) {
        		trattamentoPlasma=0.2;
@@ -127,10 +124,10 @@ public class SimulazioneController {
     	Stage stage = null;
         BorderPane root = null;
         stage = (Stage) bottoneTornaAnalisi.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Scene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ScenaAnalisi.fxml"));
         root = loader.load();
-        FXMLController controller=loader.getController();
-        Model model=new Model(); 
+        AnalisiDatiController controller=loader.getController();
+        Analisi model=new Analisi(); 
         controller.setModel(model);
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -156,7 +153,7 @@ public class SimulazioneController {
 
     }
     
-    public void setModel(Model model) {
+    public void setModel(Analisi model) {
 		this.model=model; 
 		
 	}
